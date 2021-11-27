@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>{{ appTitle }} - Analog Read</title>
+{% endblock %}
+
+{% block body %}
+    <h1 class="toggle-h1">Read Analog Inputs</h1>
+
+    {% for pins in LED_PINS %}
+        <article class="media content-section">
+            <div class="media-body">
+                <div class="article-metadata">
+                    <small>
+                        <i id="{{ pins.pin_num + ' bulb' }}" class="bi bi-lightbulb-off-fill small-icon"></i>
+                    </small>
+                    <small class="text-muted small-text">GPIO: {{ pins["pin_num"] }}</small>
+                    <small id="{{ pins.pin_num + ' small' }}" class="small-text ms-4">Status: Off</small>
+                </div>
+                <form  action="/" method="post">
+                    {% if pins["pin_name"] == '' %}
+                        <label>GPIO: {{ pins["pin_num"] }}</label>
+                    {% else %}
+                        <label>{{ pins["pin_name"] }}</label>
+                        <a id="{{ pins.pin_num + ' On' }}" class="btn btn-success btn-sm ms-4" href="/pins/on/{{ pins.pin_num }}">On</a>
+                        <label>|</label>
+                        <a class="btn btn-danger btn-sm" href="/pins/off/{{ pins.pin_num }}" value="Turn Off">Off</a>
+                    {% endif %}
+                </form>
+            </div>
+        </article>
+    {% endfor %}
+
+{% endblock %}

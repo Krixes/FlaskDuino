@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>{{ appTitle }} - Toggle Pins</title>
+{% endblock %}
+
+{% block body %}
+    <h1 class="toggle-h1">Toggle GPIO Pins</h1>
+
+    {% for pins in LED_PINS %}
+        {% if pins.pin_type == 'D_Out' %}
+            <article class="media content-section">
+                <div class="media-body">
+                    <div class="article-metadata">
+                        <small>
+                            <i id="{{ pins.pin_num + ' bulb' }}" class="bi bi-lightbulb-off-fill small-icon"></i>
+                        </small>
+                        <small class="text-muted small-text">GPIO: {{ pins["pin_num"] }}</small>
+                        <small id="{{ pins.pin_num + ' small' }}" class="small-text ms-4">Status: Off</small>
+                    </div>
+                    <form  action="/" method="post">
+                        {% if pins["pin_name"] == '' %}
+                            <label>GPIO: {{ pins["pin_num"] }}</label>
+                        {% else %}
+                            <label>{{ pins["pin_name"] }}</label>
+                            <a id="{{ pins.pin_num + ' On' }}" class="btn btn-success btn-sm ms-4" onclick="setPinOn({{ pins.pin_num }})">On</a>
+                            <label>|</label>
+                            <a id="{{ pins.pin_num + ' Off' }}" class="btn btn-danger btn-sm" onclick="setPinOff({{ pins.pin_num }})">Off</a>
+                        {% endif %}
+                    </form>
+                </div>
+            </article>
+        {% endif %}
+    {% endfor %}
+
+{% endblock %}
